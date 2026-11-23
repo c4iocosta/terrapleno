@@ -83,6 +83,7 @@ textarea{min-height:120px;resize:vertical}
 .chip[aria-pressed=true]{background:var(--amarelo);border-color:var(--asfalto);font-weight:700}
 .chip[aria-pressed=true]:before{content:"✓ "}
 .hint{font-size:14px;color:var(--cinza);margin-top:7px}
+input[type=text]:not([inputmode=decimal]),textarea{text-transform:none}
 .utm{font:700 15px/1.3 var(--sign);color:var(--placa);margin-top:8px}
 .gps{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--placa)!important;border-color:var(--placa)!important;color:#fff!important}
 .photos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -578,7 +579,7 @@ function renderForm(){var box=$('form');box.textContent='';
 function field(d,upd){var f=CUR.f,w=el('div',{cls:'f'});
  if(d.type==='photos')return photoField(upd);
  if(d.type==='frases'){var fw=el('div',{cls:'f'});Object.keys(FRASES).forEach(function(g){fw.appendChild(el('div',{cls:'lb',text:'Frases prontas: '+g.toLowerCase()}));
-   var c=el('div',{cls:'frases'});FRASES[g].forEach(function(t){c.appendChild(el('button',{cls:'frase',type:'button',text:t,onclick:function(){var ta=$('i_obs');var v=(ta.value||'').trim();ta.value=(v?v+' ':'')+t;f.obs=ta.value;touch();upd();toast('Frase adicionada')}}))});fw.appendChild(c)});
+   var c=el('div',{cls:'frases'});FRASES[g].forEach(function(t){c.appendChild(el('button',{cls:'frase',type:'button',text:t,onclick:function(){var ta=$('i_obs');var v=(ta.value||'').trim();ta.value=((v?v+' ':'')+t).toLocaleUpperCase('pt-BR');f.obs=ta.value;touch();upd();toast('Frase adicionada')}}))});fw.appendChild(c)});
   fw.appendChild(el('div',{cls:'hint',text:'Toque para acrescentar ao texto. Dá para ditar também: use o microfone do teclado do celular.'}));return fw}
  if(d.l)w.appendChild(el(d.type==='chips'?'div':'label',{cls:d.type==='chips'?'lb':'',text:d.l,'for':'i_'+d.k}));
  if(d.type==='chips'){var c=el('div',{cls:'chips',role:'group'}),opts=L[d.o];
@@ -594,7 +595,7 @@ function field(d,upd){var f=CUR.f,w=el('div',{cls:'f'});
   if(d.other){ob=el('button',{cls:'chip',type:'button',text:'Outro…','aria-pressed':String(!!other)});c.appendChild(ob);
    oin=el('input',{type:'text',placeholder:'Escreva aqui'});oin.value=other;var ow=el('div',{cls:'f'+(other?'':' hidden')},[oin]);w.appendChild(ow);
    ob.onclick=function(){var on=ow.classList.toggle('hidden')===false;ob.setAttribute('aria-pressed',String(on));if(on){if(!d.multi){sel=[];paint()}oin.focus()}else{oin.value=''}commit()};
-   oin.oninput=function(){if(!d.multi&&oin.value){sel=[];paint()}commit()}}
+   oin.oninput=function(){upper(oin);if(!d.multi&&oin.value){sel=[];paint()}commit()}}
   paint();return w}
  if(d.type==='coords'){var lat=el('input',{type:'text',inputmode:'decimal',id:'i_lat',placeholder:'Latitude'}),lon=el('input',{type:'text',inputmode:'decimal',placeholder:'Longitude'});
   lat.value=f.lat||'';lon.value=f.lon||'';
@@ -615,7 +616,17 @@ function field(d,upd){var f=CUR.f,w=el('div',{cls:'f'});
  if(d.type==='area'){inp=el('textarea',{id:'i_'+d.k})}
  else if(d.type==='date'){inp=el('input',{type:'date',id:'i_'+d.k})}
  else inp=el('input',{type:'text',id:'i_'+d.k,inputmode:d.type==='num'?'decimal':'text',autocomplete:'off',placeholder:d.ph||''});
- inp.value=f[d.k]||'';inp.oninput=function(){f[d.k]=inp.value;if(d.k==='local'||d.k==='ext')autoKm();touch();upd()};w.appendChild(inp);return w}
+ var isKm=KMK.indexOf(d.k)>=0;
+ if(isKm){inp.setAttribute('inputmode','numeric');inp.setAttribute('placeholder',d.ph||'058330')}
+ inp.value=f[d.k]||'';
+ inp.oninput=function(){if(isKm)kmMask(inp);else upper(inp);f[d.k]=inp.value;if(d.k==='local'||d.k==='ext')autoKm();touch();upd()};
+ if(isKm)inp.onblur=function(){if(inp.value){var n=CORE.km(inp.value);if(n!==inp.value){inp.value=n;f[d.k]=n;touch()}}if(d.k==='local')autoKm()};
+ w.appendChild(inp);return w}
+var KMK=['local','kmIni','kmFim'];
+// Km: digite só os números (58330) e o "+" entra sozinho antes das 3 últimas casas → 58+330; ao sair do campo vira 058+330
+function kmMask(inp){var d=inp.value.replace(/\D/g,'').slice(0,7);inp.value=d.length>3?d.slice(0,-3)+'+'+d.slice(-3):d;try{inp.setSelectionRange(inp.value.length,inp.value.length)}catch(e){}}
+// Tudo o que for digitado vira MAIÚSCULA, sem pular o cursor
+function upper(inp){var v=inp.value,u=v.toLocaleUpperCase('pt-BR');if(v===u)return;var a=inp.selectionStart,b=inp.selectionEnd;inp.value=u;try{inp.setSelectionRange(a,b)}catch(e){}}
 function kmM(v){var k=CORE.km(v),m=String(k).match(/^(\d+)\+(\d+)$/);return m?(+m[1])*1000+(+m[2]):null}
 function mKm(m){m=Math.max(0,Math.round(m));var k=String(Math.floor(m/1000)),r=String(m%1000);while(k.length<3)k='0'+k;while(r.length<3)r='0'+r;return k+'+'+r}
 // Km inicial/final = localização ± extensão/2 (enquanto você não digitar outro valor)
