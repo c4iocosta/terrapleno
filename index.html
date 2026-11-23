@@ -10,24 +10,26 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Terrapleno">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="theme-color" content="#0F5C3F">
+<meta name="theme-color" content="#0B5A8A">
 <style>
-/* Linguagem de sinalização rodoviária: placa verde, amarelo de alerta, marco quilométrico */
-:root{--placa:#0F5C3F;--placa-esc:#0A4430;--amarelo:#F5C400;--amarelo-esc:#D9AE00;--asfalto:#23272B;--cinza:#5D6660;--linha:#D3D8D2;--fundo:#EDF0EB;--card:#fff;
+/* Cores da ENG Consultoria (azuis do cubo da logo) + marco quilométrico da rodovia */
+:root{--placa:#0B5A8A;--placa-esc:#083F61;--amarelo:#2B9FD3;--amarelo-esc:#1E86BF;--asfalto:#2B2F33;--cinza:#5E6B74;--linha:#D2DDE4;--fundo:#EEF3F6;--card:#fff;
  --r0:#2E7D4F;--r1:#B59300;--r2:#D9731A;--r3:#B3261E;
  --sign:"DIN Alternate","DIN Condensed","Bahnschrift","Roboto Condensed","Arial Narrow",system-ui,sans-serif}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--fundo);color:var(--asfalto);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
 body{padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-header{position:sticky;top:0;z-index:5;background:var(--placa);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 12px;border-bottom:4px solid #fff;box-shadow:0 1px 0 var(--placa-esc)}
-.hd{display:flex;align-items:center;gap:10px;max-width:720px;margin:0 auto}
-header h1{font:700 21px/1.1 var(--sign);margin:0;flex:1;letter-spacing:.2px}
-header h1 small{display:block;font:500 13px/1.3 system-ui,sans-serif;opacity:.8;margin-top:3px}
-.pill{font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;white-space:nowrap}
-.pill.ok{background:#fff;color:var(--placa)}.pill.warn{background:var(--amarelo);color:var(--asfalto)}
+header{position:sticky;top:0;z-index:5;background:#fff;color:var(--asfalto);padding:calc(10px + env(safe-area-inset-top)) 16px 10px;border-bottom:4px solid var(--amarelo);box-shadow:0 2px 0 var(--placa)}
+.logo{height:40px;width:auto;flex:none;display:block}
+.hd{display:grid;grid-template-columns:1fr auto;align-items:center;gap:6px 10px;max-width:720px;margin:0 auto}
+header h1{grid-column:1/-1;font:700 20px/1.1 var(--sign);margin:2px 0 0;letter-spacing:.2px;color:var(--placa);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+header h1 small{font:500 13px/1.3 system-ui,sans-serif;color:var(--cinza)}
+.logo-txt{font:700 18px/1 var(--sign);color:var(--placa)}
+.pill{font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;background:#EAF4FA;color:var(--placa);white-space:nowrap}
+.pill.ok{background:var(--placa);color:#fff}.pill.warn{background:#FFF1C2;color:#7A5A00}
 main{max-width:720px;margin:0 auto;padding:16px 14px 128px}
 .btn{appearance:none;border:2px solid var(--asfalto);background:#fff;color:var(--asfalto);font:inherit;font-weight:650;min-height:48px;padding:10px 16px;border-radius:12px;cursor:pointer;touch-action:manipulation}
-.btn.pri{background:var(--amarelo);border-color:var(--amarelo);color:var(--asfalto)}
+.btn.pri{background:var(--amarelo);border-color:var(--amarelo);color:#fff}
 .btn.pri:active{background:var(--amarelo-esc)}
 .btn.ghost{border-color:var(--linha);background:transparent}
 .btn.danger{border-color:transparent;background:transparent;color:var(--r3)}
@@ -80,7 +82,7 @@ input::placeholder,textarea::placeholder{color:#9AA39C}
 textarea{min-height:120px;resize:vertical}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{appearance:none;font:inherit;font-size:16px;min-height:46px;padding:9px 15px;border-radius:999px;border:2px solid var(--linha);background:#fff;color:var(--asfalto);cursor:pointer;touch-action:manipulation}
-.chip[aria-pressed=true]{background:var(--amarelo);border-color:var(--asfalto);font-weight:700}
+.chip[aria-pressed=true]{background:var(--amarelo);border-color:var(--placa);color:#fff;font-weight:700}
 .chip[aria-pressed=true]:before{content:"✓ "}
 .hint{font-size:14px;color:var(--cinza);margin-top:7px}
 input[type=text]:not([inputmode=decimal]),textarea{text-transform:none}
@@ -98,9 +100,9 @@ input[type=text]:not([inputmode=decimal]),textarea{text-transform:none}
 .frase:before{content:"+";position:absolute;left:12px;top:9px;font-weight:700;color:var(--placa)}
 .frase:active{background:#E3E8E1}
 /* barra inferior */
-.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--asfalto);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;justify-content:center}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--placa-esc);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;justify-content:center}
 .bar .btn{flex:1;max-width:340px}
-.bar .btn:not(.pri){background:transparent;color:#fff;border-color:#59616A}
+.bar .btn:not(.pri){background:transparent;color:#fff;border-color:#4B7393}
 .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--asfalto);color:#fff;padding:11px 16px;border-radius:10px;font-size:15px;z-index:20;max-width:90vw;opacity:0;transition:opacity .2s;pointer-events:none;border-left:5px solid var(--amarelo)}
 .toast.on{opacity:1}
 .dlg{position:fixed;inset:0;background:rgba(20,24,22,.55);z-index:30;display:none;align-items:flex-end;justify-content:center;padding:16px}
@@ -116,7 +118,7 @@ input[type=text]:not([inputmode=decimal]),textarea{text-transform:none}
 </style>
 </head>
 <body>
-<header id="hdr"><div class="hd"><h1>Terraplenos<small id="sub">Pronto para o campo</small></h1><span id="st" class="pill">Carregando…</span></div></header>
+<header id="hdr"><div class="hd"><img class="logo" alt="ENG Consultoria" onerror="this.outerHTML='<span class=logo-txt>ENG Consultoria</span>'" src="https://static.wixstatic.com/media/bd40cc_257e0fc23f794f808a9e45057b28eb8c~mv2.png/v1/fill/w_240,h_72,al_c,q_90/logo.png"><span id="st" class="pill">Carregando…</span><h1>Terraplenos<small id="sub">Pronto para o campo</small></h1></div></header>
 <main>
   <div id="vList">
     <button class="btn pri big new" id="bNew"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>Novo cadastro</button>
@@ -126,6 +128,7 @@ input[type=text]:not([inputmode=decimal]),textarea{text-transform:none}
     <button class="btn big hidden" id="bAll" style="border-color:var(--placa);background:var(--placa);color:#fff">Baixar Linear + fotos (.zip)</button>
     <p class="note" id="allNote">O Linear vem com as macros e os cadastros na aba “Linear Gerar Fichas”, junto das pastas Fotos e Croquis.</p>
     <button class="btn ghost big hidden" id="bFichas">Baixar só as fichas (.zip)</button></div>
+    <p class="note" id="ver" style="text-align:center;margin-top:24px"></p>
   </div>
   <div id="vForm" class="hidden"><div id="form"></div></div>
 </main>
@@ -513,7 +516,7 @@ function touch(){CUR.updatedAt=Date.now();clearTimeout(saveT);saveT=setTimeout(f
 /* ---------- lista ---------- */
 function riskCls(r){var m=String(r||'').match(/(\d)/);return m?' r'+m[1]:''}
 function renderList(){sortRegs();var box=$('list');box.textContent='';
- if(!REGS.length){var em=el('div',{cls:'empty'});em.innerHTML='<svg width="120" height="70" viewBox="0 0 120 70" aria-hidden="true"><path d="M4 66 L44 20 L64 36 L80 18 L116 66 Z" fill="#D3D8D2"/><path d="M0 66h120" stroke="#23272B" stroke-width="3"/><rect x="88" y="34" width="22" height="16" rx="3" fill="#fff" stroke="#23272B" stroke-width="2.5"/><path d="M99 50v16" stroke="#23272B" stroke-width="2.5"/></svg>';
+ if(!REGS.length){var em=el('div',{cls:'empty'});em.innerHTML='<svg width="120" height="70" viewBox="0 0 120 70" aria-hidden="true"><path d="M4 66 L44 20 L64 36 L80 18 L116 66 Z" fill="#CFE6F3"/><path d="M0 66h120" stroke="#23272B" stroke-width="3"/><rect x="88" y="34" width="22" height="16" rx="3" fill="#fff" stroke="#23272B" stroke-width="2.5"/><path d="M99 50v16" stroke="#23272B" stroke-width="2.5"/></svg>';
   em.appendChild(el('div',{text:'Nenhum talude cadastrado ainda. Toque em “Novo cadastro” no primeiro ponto.'}));box.appendChild(em)}
  REGS.forEach(function(r){var f=r.f,n=r.photos.slice(0,4).filter(Boolean).length;
   var k=f.local?CORE.km(f.local):(f.kmIni?CORE.km(f.kmIni):''),kp=String(k).split('+');
@@ -532,7 +535,7 @@ function renderList(){sortRegs();var box=$('list');box.textContent='';
     el('button',{cls:'btn danger',text:'Excluir',onclick:function(){delReg(r)}})])]))});
  var rods=REGS.map(function(r){return r.f.rodovia}).filter(Boolean),fotos=REGS.reduce(function(a,r){return a+r.photos.slice(0,4).filter(Boolean).length},0);
  $('sub').textContent=REGS.length?(REGS.length+(REGS.length===1?' talude':' taludes')+(rods.length?' na '+rods[0]:'')+', '+fotos+(fotos===1?' foto':' fotos')):'Pronto para o campo';
- $('bAll').classList.toggle('hidden',REGS.length<1);$('allNote').classList.toggle('hidden',REGS.length<1);$('bFichas').classList.toggle('hidden',REGS.length<2);status()}
+ $('bAll').classList.toggle('hidden',REGS.length<1);$('allNote').classList.toggle('hidden',REGS.length<1);$('bFichas').classList.toggle('hidden',REGS.length<2);status();$('ver').textContent='Versão '+VERSAO}
 async function delReg(r){if(!(await confirmDlg('Excluir o cadastro “'+(r.f.ident||'sem identificação')+'”? Isso não pode ser desfeito.')))return;
  REGS=REGS.filter(function(x){return x!==r});await idbDel(r.id);
  if(CLOUD.db){try{await CLOUD.db.collection('cadastros').doc(r.id).delete()}catch(e){}
@@ -724,7 +727,14 @@ $('bXls').onclick=function(){if(CUR){idbPut(CUR);exportOne(CUR)}};
 $('bAll').onclick=exportLinear;$('bFichas').onclick=exportAll;
 window.addEventListener('online',function(){syncAll()});window.addEventListener('offline',status);
 document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden'&&CUR)idbPut(CUR)});
-if((location.protocol==='https:'||location.hostname==='localhost')&&!window.claude&&'serviceWorker' in navigator){try{navigator.serviceWorker.register('sw.js').catch(function(){})}catch(e){}}
+var VERSAO='5 (23/11)';
+if((location.protocol==='https:'||location.hostname==='localhost')&&!window.claude&&'serviceWorker' in navigator){try{
+ var hadCtrl=!!navigator.serviceWorker.controller;
+ navigator.serviceWorker.register('sw.js',{updateViaCache:'none'}).then(function(reg){reg.update().catch(function(){})}).catch(function(){});
+ // quando uma versão nova é instalada, recarrega sozinho (se estiver na lista) para já usar a nova
+ navigator.serviceWorker.addEventListener('controllerchange',function(){if(!hadCtrl){hadCtrl=true;return}if(!CUR)location.reload();else toast('Versão nova pronta: volte para a lista para atualizar')});
+ document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'&&navigator.onLine)navigator.serviceWorker.getRegistration().then(function(r){r&&r.update()}).catch(function(){})});
+}catch(e){}}
 try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
 (async function(){await idbOpen();REGS=await idbAll();renderList();
  for(var w=0;w<30&&!(window.claude&&window.claude.use);w++)await new Promise(function(r){setTimeout(r,100)});
