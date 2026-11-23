@@ -10,83 +10,131 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Terrapleno">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="theme-color" content="#141414">
+<meta name="theme-color" content="#0F5C3F">
 <style>
-:root{--bg:#f4f4f1;--card:#fff;--ink:#141414;--mute:#5b5b57;--line:#d7d6d0;--acc:#e8590c;--acc-ink:#fff;--ok:#1f7a3a;--warn:#a15c00;--sel:#141414}
+/* Linguagem de sinalização rodoviária: placa verde, amarelo de alerta, marco quilométrico */
+:root{--placa:#0F5C3F;--placa-esc:#0A4430;--amarelo:#F5C400;--amarelo-esc:#D9AE00;--asfalto:#23272B;--cinza:#5D6660;--linha:#D3D8D2;--fundo:#EDF0EB;--card:#fff;
+ --r0:#2E7D4F;--r1:#B59300;--r2:#D9731A;--r3:#B3261E;
+ --sign:"DIN Alternate","DIN Condensed","Bahnschrift","Roboto Condensed","Arial Narrow",system-ui,sans-serif}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
-body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-header{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px}
-header h1{font-size:17px;margin:0;flex:1;font-weight:700;letter-spacing:.2px}
-.pill{font-size:12px;padding:4px 9px;border-radius:999px;background:#333;color:#ddd;white-space:nowrap}
-.pill.ok{background:var(--ok);color:#fff}.pill.warn{background:var(--warn);color:#fff}
-main{max-width:720px;margin:0 auto;padding:14px 12px 120px}
-.btn{appearance:none;border:2px solid var(--ink);background:#fff;color:var(--ink);font:inherit;font-weight:650;min-height:48px;padding:10px 16px;border-radius:10px;cursor:pointer;touch-action:manipulation}
-.btn.pri{background:var(--acc);border-color:var(--acc);color:var(--acc-ink)}
-.btn.ghost{border-color:var(--line)}
-.btn.danger{border-color:#b42318;color:#b42318}
+html,body{margin:0;background:var(--fundo);color:var(--asfalto);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+body{padding:0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+header{position:sticky;top:0;z-index:5;background:var(--placa);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 12px;border-bottom:4px solid #fff;box-shadow:0 1px 0 var(--placa-esc)}
+.hd{display:flex;align-items:center;gap:10px;max-width:720px;margin:0 auto}
+header h1{font:700 21px/1.1 var(--sign);margin:0;flex:1;letter-spacing:.2px}
+header h1 small{display:block;font:500 13px/1.3 system-ui,sans-serif;opacity:.8;margin-top:3px}
+.pill{font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.14);color:#fff;white-space:nowrap}
+.pill.ok{background:#fff;color:var(--placa)}.pill.warn{background:var(--amarelo);color:var(--asfalto)}
+main{max-width:720px;margin:0 auto;padding:16px 14px 128px}
+.btn{appearance:none;border:2px solid var(--asfalto);background:#fff;color:var(--asfalto);font:inherit;font-weight:650;min-height:48px;padding:10px 16px;border-radius:12px;cursor:pointer;touch-action:manipulation}
+.btn.pri{background:var(--amarelo);border-color:var(--amarelo);color:var(--asfalto)}
+.btn.pri:active{background:var(--amarelo-esc)}
+.btn.ghost{border-color:var(--linha);background:transparent}
+.btn.danger{border-color:transparent;background:transparent;color:var(--r3)}
 .btn:disabled{opacity:.45}
-.big{width:100%;font-size:18px;min-height:56px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 12px}
-.rec h3{margin:0 0 2px;font-size:17px}
-.rec .meta{color:var(--mute);font-size:14px}
-.rec .acts{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.rec .acts .btn{flex:1;min-width:120px}
-.empty{text-align:center;color:var(--mute);padding:28px 8px}
-section.sec{background:var(--card);border:1px solid var(--line);border-radius:14px;margin:0 0 12px;overflow:hidden}
-section.sec>h2{margin:0;font-size:13px;letter-spacing:.8px;text-transform:uppercase;padding:11px 14px;background:#ecebe6;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
-section.sec>h2 span{color:var(--mute);font-weight:600;letter-spacing:0}
-.fields{padding:6px 14px 14px}
-.f{margin-top:12px}
-.f>label,.f>.lb{display:block;font-size:13px;font-weight:700;color:var(--mute);margin-bottom:6px;text-transform:uppercase;letter-spacing:.4px}
+.btn:focus-visible,.chip:focus-visible,.frase:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--placa);outline-offset:2px}
+.big{width:100%;font-size:18px;min-height:58px}
+.note{font-size:14px;color:var(--cinza);margin:6px 2px 16px;max-width:60ch}
+/* lista */
+.new{display:flex;align-items:center;justify-content:center;gap:10px;font:700 21px/1 var(--sign);letter-spacing:.3px}
+.new svg{flex:none}
+.rec{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;background:var(--card);border-radius:14px;padding:14px;margin:0 0 12px;border:1px solid var(--linha)}
+.marco{grid-row:1/3;align-self:start;width:84px;background:#fff;border:3px solid var(--asfalto);border-radius:10px;text-align:center;padding:6px 4px 7px;position:relative}
+.marco:after{content:"";position:absolute;left:50%;bottom:-10px;width:8px;height:8px;margin-left:-4px;background:var(--asfalto);border-radius:0 0 3px 3px}
+.marco b{display:block;font:700 12px/1 var(--sign);letter-spacing:1px;color:var(--cinza)}
+.marco span{display:block;font:700 22px/1.05 var(--sign);margin-top:3px}
+.marco i{display:block;font:700 15px/1 var(--sign);font-style:normal;color:var(--cinza)}
+.rec h3{margin:2px 0 0;font:700 19px/1.2 var(--sign)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tag{font-size:13px;font-weight:600;padding:3px 9px;border-radius:999px;background:var(--fundo);color:var(--asfalto)}
+.tag.r0{background:var(--r0);color:#fff}.tag.r1{background:var(--r1);color:#fff}.tag.r2{background:var(--r2);color:#fff}.tag.r3{background:var(--r3);color:#fff}
+.tag.sync{background:transparent;color:var(--cinza);padding-left:0}
+.thumb{grid-column:1/-1;display:flex;gap:6px;margin-top:8px}
+.thumb img{width:64px;height:48px;object-fit:cover;border-radius:6px}
+.rec .acts{grid-column:1/-1;display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.rec .acts .btn{flex:1;min-width:110px;min-height:44px;font-size:15px}
+.empty{text-align:center;color:var(--cinza);padding:30px 12px 10px}
+.empty svg{display:block;margin:0 auto 12px}
+.export{margin-top:22px;padding-top:18px;border-top:2px dashed var(--linha)}
+/* formulário */
+.nav{position:sticky;top:var(--hh,64px);z-index:4;background:var(--fundo);margin:-16px -14px 12px;padding:10px 14px 8px;border-bottom:1px solid var(--linha)}
+.navs{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;padding-bottom:2px}
+.navs::-webkit-scrollbar{display:none}
+.navs button{flex:none;scroll-snap-align:start;appearance:none;border:1.5px solid var(--linha);background:#fff;color:var(--asfalto);font:600 14px/1 system-ui,sans-serif;padding:9px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+.navs button.done{background:var(--placa);border-color:var(--placa);color:#fff}
+.navs button.done:before{content:"✓ "}
+.prog{height:5px;background:var(--linha);border-radius:3px;margin-top:8px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--amarelo);width:0;transition:width .25s}
+section.sec{background:var(--card);border:1px solid var(--linha);border-radius:14px;margin:0 0 14px;overflow:hidden;scroll-margin-top:calc(var(--hh,64px) + 74px)}
+section.sec>h2{margin:0;font:700 18px/1.2 var(--sign);padding:12px 14px;border-left:6px solid var(--placa);display:flex;justify-content:space-between;align-items:center;gap:8px}
+section.sec>h2 span{font:600 13px/1 system-ui,sans-serif;color:var(--cinza)}
+section.sec.ok>h2 span{color:var(--placa)}
+.fields{padding:2px 14px 14px}
+.f{margin-top:14px}
+.f>label,.f>.lb,.lb{display:block;font-size:15px;font-weight:650;color:var(--asfalto);margin-bottom:7px}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .row2>.f{min-width:0}
-input[type=text],input[type=date],textarea{width:100%;font:inherit;font-size:18px;padding:12px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink)}
-input:focus,textarea:focus{outline:none;border-color:var(--acc)}
-textarea{min-height:110px;resize:vertical}
+input[type=text],input[type=date],textarea{width:100%;font:inherit;font-size:18px;padding:12px;border:2px solid var(--linha);border-radius:10px;background:#fff;color:var(--asfalto)}
+input:focus,textarea:focus{outline:none;border-color:var(--placa)}
+input::placeholder,textarea::placeholder{color:#9AA39C}
+textarea{min-height:120px;resize:vertical}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{appearance:none;font:inherit;font-size:16px;min-height:46px;padding:9px 14px;border-radius:10px;border:2px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;touch-action:manipulation}
-.chip[aria-pressed=true]{background:var(--sel);border-color:var(--sel);color:#fff;font-weight:650}
-.hint{font-size:13px;color:var(--mute);margin-top:6px}
+.chip{appearance:none;font:inherit;font-size:16px;min-height:46px;padding:9px 15px;border-radius:999px;border:2px solid var(--linha);background:#fff;color:var(--asfalto);cursor:pointer;touch-action:manipulation}
+.chip[aria-pressed=true]{background:var(--amarelo);border-color:var(--asfalto);font-weight:700}
+.chip[aria-pressed=true]:before{content:"✓ "}
+.hint{font-size:14px;color:var(--cinza);margin-top:7px}
+.utm{font:700 15px/1.3 var(--sign);color:var(--placa);margin-top:8px}
+.gps{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--placa)!important;border-color:var(--placa)!important;color:#fff!important}
 .photos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.ph{position:relative;aspect-ratio:4/3;border:2px dashed var(--line);border-radius:12px;background:#fafaf8;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;color:var(--mute);font-weight:650;text-align:center;padding:6px}
+.ph{position:relative;aspect-ratio:4/3;border:2px dashed #AEB8B0;border-radius:12px;background:#F6F8F5;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;color:var(--cinza);font-weight:650;text-align:center;padding:6px}
+.ph.croq{grid-column:1/-1;aspect-ratio:2/1}
 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ph input{position:absolute;inset:0;opacity:0;cursor:pointer}
-.ph .x{position:absolute;top:6px;right:6px;z-index:2;width:34px;height:34px;border-radius:50%;border:0;background:rgba(0,0,0,.7);color:#fff;font-size:18px;line-height:34px;padding:0;cursor:pointer}
-.ph .n{position:absolute;left:6px;bottom:6px;z-index:2;background:rgba(0,0,0,.7);color:#fff;font-size:12px;padding:2px 7px;border-radius:6px}
-.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:rgba(244,244,241,.97);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;justify-content:center}
+.ph .x{position:absolute;top:6px;right:6px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:rgba(35,39,43,.8);color:#fff;font-size:20px;line-height:36px;padding:0;cursor:pointer}
+.ph .n{position:absolute;left:6px;bottom:6px;z-index:2;background:rgba(35,39,43,.8);color:#fff;font-size:12px;padding:3px 8px;border-radius:6px}
+.frases{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.frase{appearance:none;text-align:left;font:inherit;font-size:15px;padding:10px 12px 10px 34px;border:1.5px solid var(--linha);border-radius:10px;background:#F6F8F5;color:var(--asfalto);cursor:pointer;position:relative}
+.frase:before{content:"+";position:absolute;left:12px;top:9px;font-weight:700;color:var(--placa)}
+.frase:active{background:#E3E8E1}
+/* barra inferior */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--asfalto);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:10px;justify-content:center}
 .bar .btn{flex:1;max-width:340px}
-.toast{position:fixed;left:50%;bottom:92px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:15px;z-index:20;max-width:90vw;opacity:0;transition:opacity .2s;pointer-events:none}
+.bar .btn:not(.pri){background:transparent;color:#fff;border-color:#59616A}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--asfalto);color:#fff;padding:11px 16px;border-radius:10px;font-size:15px;z-index:20;max-width:90vw;opacity:0;transition:opacity .2s;pointer-events:none;border-left:5px solid var(--amarelo)}
 .toast.on{opacity:1}
-.dlg{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:30;display:none;align-items:center;justify-content:center;padding:20px}
+.dlg{position:fixed;inset:0;background:rgba(20,24,22,.55);z-index:30;display:none;align-items:flex-end;justify-content:center;padding:16px}
 .dlg.on{display:flex}
-.dlg .box{background:#fff;border-radius:14px;padding:18px;max-width:420px;width:100%}
-.dlg .box p{margin:0 0 16px;font-size:17px}
+.dlg .box{background:#fff;border-radius:18px;padding:18px;max-width:440px;width:100%;margin-bottom:env(safe-area-inset-bottom)}
+.dlg .box p{margin:0 0 14px;font-size:17px}
 .dlg .box .acts{display:flex;gap:10px}.dlg .box .acts .btn{flex:1}
-.top-acts{display:flex;gap:10px;margin-bottom:14px}
-.top-acts .btn{flex:1}
-.note{font-size:13px;color:var(--mute);margin:4px 2px 14px}
-.ph.croq{grid-column:1/-1;aspect-ratio:2/1}
-.gps{margin-top:2px}
-.utm{font-weight:650;color:var(--ink)}
+#chooser .box p{font:700 22px/1.1 var(--sign)}
+#chooser .btn{text-align:left;padding:12px 16px}
+#chooser small{display:block;font-size:14px;font-weight:400;opacity:.8;margin-top:2px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 .hidden{display:none!important}
 </style>
 </head>
 <body>
-<header><h1>Cadastro de Terrapleno</h1><span id="st" class="pill">Carregando…</span></header>
+<header id="hdr"><div class="hd"><h1>Terraplenos<small id="sub">Pronto para o campo</small></h1><span id="st" class="pill">Carregando…</span></div></header>
 <main>
   <div id="vList">
-    <div class="top-acts"><button class="btn pri big" id="bNew">+ Novo cadastro</button></div>
-    <p class="note" id="note">Tudo fica salvo neste aparelho enquanto você preenche, mesmo sem sinal. Quando houver internet, os cadastros também vão para a nuvem.</p>
+    <button class="btn pri big new" id="bNew"><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><path d="M11 3v16M3 11h16" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>Novo cadastro</button>
+    <p class="note" id="note">Tudo fica salvo no celular enquanto você preenche, mesmo sem sinal.</p>
     <div id="list"></div>
-    <button class="btn pri big hidden" id="bAll">Baixar Linear + fotos (.zip)</button>
-    <p class="note" id="allNote">Gera o Linear_Terraplenos (com as macros) já preenchido na aba “Linear Gerar Fichas”, com a pasta Fotos nomeada TP_nº-1…4 e a pasta Croquis.</p>
-    <button class="btn big hidden" id="bFichas" style="margin-top:4px">Baixar só as fichas (.zip)</button>
+    <div class="export">
+    <button class="btn big hidden" id="bAll" style="border-color:var(--placa);background:var(--placa);color:#fff">Baixar Linear + fotos (.zip)</button>
+    <p class="note" id="allNote">O Linear vem com as macros e os cadastros na aba “Linear Gerar Fichas”, junto das pastas Fotos e Croquis.</p>
+    <button class="btn ghost big hidden" id="bFichas">Baixar só as fichas (.zip)</button></div>
   </div>
   <div id="vForm" class="hidden"><div id="form"></div></div>
 </main>
 <div class="bar hidden" id="bar"><button class="btn" id="bBack">‹ Lista</button><button class="btn pri" id="bXls">Baixar ficha</button></div>
 <div class="toast" id="toast"></div>
+<div class="dlg" id="chooser"><div class="box"><p>Qual o próximo talude?</p>
+ <button class="btn pri big" id="chNext" style="margin-bottom:10px">Próximo talude<small>Repete rodovia, sentido, vegetação e drenagem do último</small></button>
+ <button class="btn big" id="chOther" style="margin-bottom:10px">Mesmo km, outro sentido<small>Copia tudo do último e troca o sentido</small></button>
+ <button class="btn big" id="chBlank" style="margin-bottom:10px">Em branco<small>Só com o mais comum já marcado</small></button>
+ <button class="btn ghost big" id="chCancel">Cancelar</button></div></div>
 <div class="dlg" id="dlg"><div class="box"><p id="dlgMsg"></p><div class="acts"><button class="btn ghost" id="dlgNo">Cancelar</button><button class="btn danger" id="dlgYes">Excluir</button></div></div></div>
 
 <script>// Núcleo: preenche o modelo Terrapleno (xlsx) e gera o arquivo, sem bibliotecas.
@@ -203,9 +251,9 @@ var CORE = (function () {
   }
   function pad(x, n) { x = String(x); while (x.length < n) x = '0' + x; return x; }
   function thous(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
-  function utm(lat, lon) { // WGS84 / SIRGAS 2000
+  function utm(lat, lon, forceZone) { // WGS84 / SIRGAS 2000
     var a = 6378137, f = 1 / 298.257222101, k0 = 0.9996, e2 = f * (2 - f), ep2 = e2 / (1 - e2);
-    var zone = Math.floor((lon + 180) / 6) + 1, lon0 = ((zone - 1) * 6 - 180 + 3) * Math.PI / 180;
+    var zone = forceZone || (Math.floor((lon + 180) / 6) + 1), lon0 = ((zone - 1) * 6 - 180 + 3) * Math.PI / 180;
     var ph = lat * Math.PI / 180, l = lon * Math.PI / 180;
     var N = a / Math.sqrt(1 - e2 * Math.sin(ph) * Math.sin(ph)), T = Math.tan(ph) * Math.tan(ph), C = ep2 * Math.cos(ph) * Math.cos(ph), A = Math.cos(ph) * (l - lon0);
     var M = a * ((1 - e2 / 4 - 3 * e2 * e2 / 64 - 5 * e2 * e2 * e2 / 256) * ph - (3 * e2 / 8 + 3 * e2 * e2 / 32 + 45 * e2 * e2 * e2 / 1024) * Math.sin(2 * ph) + (15 * e2 * e2 / 256 + 45 * e2 * e2 * e2 / 1024) * Math.sin(4 * ph) - (35 * e2 * e2 * e2 / 3072) * Math.sin(6 * ph));
@@ -228,7 +276,7 @@ var CORE = (function () {
     var f = {}; Object.keys(f0).forEach(function (k) { f[k] = typeof f0[k] === 'string' ? f0[k].trim() : f0[k]; });
     f.local = km(f.local); f.kmIni = km(f.kmIni); f.kmFim = km(f.kmFim); f.distAcost = meters(f.distAcost);
     var obs = [f.obs, f.recom].filter(Boolean).join(' '); f.obs = obs;
-    var c = coordsUTM(f); f.lat = c ? c.x : (f.lat || ''); f.lon = c ? c.y : (f.lon || '');
+    var c = coordsUTM(f); f.lat = c ? c.x : (f.utmX || f.lat || ''); f.lon = c ? c.y : (f.utmY || f.lon || '');
     TEXT_KEYS.concat(['lat', 'lon']).forEach(function (k) { if (f[k] == null || f[k] === '') f[k] = '-'; });
     return f;
   }
@@ -268,7 +316,57 @@ var CORE = (function () {
     var names = order.concat(Object.keys(files).filter(function (k) { return order.indexOf(k) < 0; }));
     return zip(names.map(function (n) { return { name: n, data: files[n] }; }));
   }
-  return { build: build, buildLinear: buildLinear, zip: zip, fileName: fileName, norm: norm, coordsUTM: coordsUTM, MAP: MAP };
+  // ---------- leitura de xlsx/xlsm no navegador ----------
+  async function inflateRaw(u8) {
+    var ds = new DecompressionStream('deflate-raw'); var w = ds.writable.getWriter(); w.write(u8); w.close();
+    return new Uint8Array(await new Response(ds.readable).arrayBuffer());
+  }
+  async function unzip(buf, want) {
+    var u = new Uint8Array(buf), v = new DataView(buf), out = {}, e = u.length - 22;
+    while (e >= 0 && v.getUint32(e, true) !== 0x06054b50) e--;
+    if (e < 0) throw new Error('arquivo não é .xlsx/.xlsm');
+    var n = v.getUint16(e + 10, true), p = v.getUint32(e + 16, true);
+    for (var i = 0; i < n; i++) {
+      var meth = v.getUint16(p + 10, true), csz = v.getUint32(p + 20, true), nl = v.getUint16(p + 28, true), xl = v.getUint16(p + 30, true), cl = v.getUint16(p + 32, true), lo = v.getUint32(p + 42, true);
+      var name = dec.decode(u.subarray(p + 46, p + 46 + nl)); p += 46 + nl + xl + cl;
+      if (!want(name)) continue;
+      var ds = lo + 30 + v.getUint16(lo + 26, true) + v.getUint16(lo + 28, true), raw = u.subarray(ds, ds + csz);
+      out[name] = dec.decode(meth === 0 ? raw : await inflateRaw(raw));
+    }
+    return out;
+  }
+  function unesc(s) { return s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&#(\d+);/g, function (m, d) { return String.fromCharCode(+d); }).replace(/&amp;/g, '&'); }
+  function colNum(c) { var n = 0; for (var i = 0; i < c.length; i++) n = n * 26 + c.charCodeAt(i) - 64; return n; }
+  // Lê a aba "Linear Gerar Fichas" (ou a primeira com cabeçalho do Linear) e devolve registros no formato do app
+  async function readLinear(buf) {
+    var f = await unzip(buf, function (n) { return n === 'xl/workbook.xml' || n === 'xl/_rels/workbook.xml.rels' || n === 'xl/sharedStrings.xml' || /^xl\/worksheets\/sheet\d+\.xml$/.test(n); });
+    var sst = [];
+    (f['xl/sharedStrings.xml'] || '').replace(/<si>([\s\S]*?)<\/si>/g, function (m, si) { var t = ''; si.replace(/<t[^>]*>([\s\S]*?)<\/t>/g, function (m2, x) { t += x; }); sst.push(unesc(t)); });
+    var rels = {}; (f['xl/_rels/workbook.xml.rels'] || '').replace(/<Relationship [^>]*Id="([^"]+)"[^>]*Target="([^"]+)"/g, function (m, id, t) { rels[id] = 'xl/' + t.replace(/^\/?xl\//, ''); });
+    var sheets = []; (f['xl/workbook.xml'] || '').replace(/<sheet [^>]*name="([^"]+)"[^>]*r:id="([^"]+)"/g, function (m, nm, id) { sheets.push({ name: unesc(nm), path: rels[id] }); });
+    sheets.sort(function (a, b) { return (b.name === 'Linear Gerar Fichas') - (a.name === 'Linear Gerar Fichas'); });
+    var keyByCol = {}; LCOLS.forEach(function (c) { keyByCol[colNum(c[0])] = c[1]; });
+    for (var si = 0; si < sheets.length; si++) {
+      var x = f[sheets[si].path]; if (!x || x.indexOf('KM INICIAL') < 0 && !/<c r="H2"/.test(x)) continue;
+      var rows = [];
+      x.replace(/<row [^>]*r="(\d+)"[^>]*>([\s\S]*?)<\/row>/g, function (m, rn, body) {
+        if (+rn < 3) return; var o = {};
+        body.replace(/<c r="([A-Z]+)\d+"([^>]*?)(?:\/>|>([\s\S]*?)<\/c>)/g, function (m2, col, attrs, inner) {
+          var k = keyByCol[colNum(col)]; if (!k || !inner) return;
+          var t = (attrs.match(/t="(\w+)"/) || [])[1], val;
+          if (t === 's') val = sst[+((inner.match(/<v>(\d+)<\/v>/) || [])[1])];
+          else if (t === 'inlineStr') { val = ''; inner.replace(/<t[^>]*>([\s\S]*?)<\/t>/g, function (m3, q) { val += unesc(q); }); }
+          else { var vv = (inner.match(/<v>([\s\S]*?)<\/v>/) || [])[1]; val = vv == null ? '' : unesc(vv); }
+          if (val != null && String(val).trim() !== '') o[k] = String(val).trim();
+        });
+        if (o.ident || o.local || o.kmIni) rows.push(o);
+      });
+      if (rows.length) return rows;
+    }
+    throw new Error('não achei a aba do Linear');
+  }
+  function utmNum(s) { var d = String(s || '').replace(/[^\d]/g, ''); return d ? +d : null; }
+  return { utm: utm, readLinear: readLinear, utmNum: utmNum, km: km, build: build, buildLinear: buildLinear, zip: zip, fileName: fileName, norm: norm, coordsUTM: coordsUTM, MAP: MAP };
 })();
 if (typeof module !== 'undefined') module.exports = CORE;
 </script>
@@ -310,7 +408,7 @@ var SECTIONS = [
   {k:'relevo',l:'Tipo de relevo',type:'chips',o:'relevo'},
   {k:'veg',l:'Vegetação',type:'chips',o:'veg'},
   {k:'dens',l:'Densidade da vegetação',type:'chips',o:'dens'}]},
- {t:'Estrutura de contenção', f:[
+ {t:'Estrutura de contenção', toggle:1, f:[
   {k:'tipoCont',l:'Tipo de contenção',type:'chips',o:'tipoCont',other:1},
   {row:[{k:'contExt',l:'Extensão (m)',type:'num',ph:'15 ou 2X 15'},{k:'contAlt',l:'Altura (m)',type:'num'}]},
   {k:'ancor',l:'Ancoragens',type:'chips',o:'ancor',other:1},
@@ -329,10 +427,35 @@ var SECTIONS = [
   {k:'passivo',l:'Passivo ambiental',type:'chips',o:'passivo',other:1},
   {k:'risco',l:'Nível de risco',type:'chips',o:'risco'},
   {k:'riscoOutros',l:'Risco para outros elementos além da rodovia?',type:'chips',o:'riscoOutros',other:1}]},
- {t:'Observações gerais', f:[{k:'obs',l:'Observações e recomendações',type:'area'}]},
+ {t:'Observações gerais', f:[{k:'obs',l:'Observações e recomendações',type:'area'},{k:'frases',type:'frases'}]},
  {t:'Relatório fotográfico', f:[{k:'photos',type:'photos'}]}
 ];
 var SEP='/';
+var DEFAULTS={tipo:'Terrapleno',relevo:'Suave',veg:'Rasteira',dens:'Alta',agua:'Não há água',passivo:'Não',risco:'Nível 1',riscoOutros:'Não'};
+// o que passa de um talude para o próximo (características parecidas no mesmo trecho)
+var CARRY=['rodovia','tipo','data','sentido','tipoTerr','relevo','veg','dens','incl','distAcost','drenSup','drenSupCond','drenSub','drenSubTipo','drenSubCond','agua','passivo','risco','riscoOutros'];
+var FRASES={'Situação':[
+ 'O local se encontra estável com relação à sua estabilidade.',
+ 'O local se encontra estável com relação à sua estabilidade, como também a processos erosivos.',
+ 'O local se encontra estável com relação à sua estabilidade, porém apresenta uma cobertura vegetal inadequada em alguns trechos do talude.',
+ 'O local se encontra estável com relação à sua estabilidade, porém apresenta uma cobertura vegetal inadequada em alguns trechos do talude, causando com isso processos erosivos localizados.',
+ 'O local se encontra estável com relação à sua estabilidade, porém apresenta uma cobertura vegetal inadequada devido a queimadas.',
+ 'Foram identificadas erosões ao longo do talude, causadas principalmente pela ausência de drenagem superficial.',
+ 'Foi identificado que o maciço está fraturado, porém sem a ocorrência recente de queda de blocos.',
+ 'O local apresenta afloramento de rocha fraturada com queda de blocos.',
+ 'O talude apresentou uma ruptura superficial em um trecho localizado.',
+ 'Trecho em obras, aguardar conclusão para nova avaliação.'],
+ 'Recomendação':[
+ 'Recomenda-se melhorar o revestimento vegetal.',
+ 'Recomenda-se melhorar o revestimento vegetal nos locais onde não existe uma vegetação adequada.',
+ 'Recomenda-se melhorar o revestimento vegetal em todo o talude.',
+ 'Recomenda-se monitorar o local para avaliar a surgência de possíveis problemas geotécnicos.',
+ 'Recomenda-se recuperar o trecho erodido e melhorar o revestimento vegetal.',
+ 'Recomenda-se implantar um sistema de drenagem de crista.',
+ 'Recomenda-se a implantação de um sistema de drenagem adequado para assegurar a segurança do talude a longo prazo.',
+ 'Recomenda-se a suavização da inclinação do talude, com implantação de drenagem superficial e proteção vegetal adequada.',
+ 'Recomenda-se que seja realizada uma limpeza na área afetada.',
+ 'Recomenda-se o selamento das trincas.']};
 
 /* ---------- utilidades ---------- */
 function $(id){return document.getElementById(id)}
@@ -387,17 +510,28 @@ function sortRegs(){REGS.sort(function(a,b){return (b.createdAt||b.updatedAt)-(a
 function touch(){CUR.updatedAt=Date.now();clearTimeout(saveT);saveT=setTimeout(function(){idbPut(CUR);status()},400)}
 
 /* ---------- lista ---------- */
+function riskCls(r){var m=String(r||'').match(/(\d)/);return m?' r'+m[1]:''}
 function renderList(){sortRegs();var box=$('list');box.textContent='';
- if(!REGS.length){box.appendChild(el('div',{cls:'empty',text:'Nenhum cadastro ainda. Toque em “Novo cadastro” para começar.'}))}
+ if(!REGS.length){var em=el('div',{cls:'empty'});em.innerHTML='<svg width="120" height="70" viewBox="0 0 120 70" aria-hidden="true"><path d="M4 66 L44 20 L64 36 L80 18 L116 66 Z" fill="#D3D8D2"/><path d="M0 66h120" stroke="#23272B" stroke-width="3"/><rect x="88" y="34" width="22" height="16" rx="3" fill="#fff" stroke="#23272B" stroke-width="2.5"/><path d="M99 50v16" stroke="#23272B" stroke-width="2.5"/></svg>';
+  em.appendChild(el('div',{text:'Nenhum talude cadastrado ainda. Toque em “Novo cadastro” no primeiro ponto.'}));box.appendChild(em)}
  REGS.forEach(function(r){var f=r.f,n=r.photos.slice(0,4).filter(Boolean).length;
-  var title=[f.ident?'Nº '+f.ident:'Sem identificação',f.rodovia,f.local?'km '+f.local:''].filter(Boolean).join(' · ');
-  var meta=[f.kmIni?'km '+f.kmIni+(f.kmFim?' a '+f.kmFim:''):'',f.sentido,fmtDate(f.data),n+' foto'+(n===1?'':'s')].filter(Boolean).join(' · ');
-  var sync=!CLOUD.db?'':(r.syncedAt&&r.syncedAt>=r.updatedAt?' · ☁ na nuvem':' · aguardando envio');
-  box.appendChild(el('div',{cls:'card rec'},[el('h3',{text:title}),el('div',{cls:'meta',text:meta+sync}),
+  var k=f.local?CORE.km(f.local):(f.kmIni?CORE.km(f.kmIni):''),kp=String(k).split('+');
+  var marco=el('div',{cls:'marco','aria-label':k?'km '+k:'sem km'},[el('b',{text:'KM'}),el('span',{text:kp[0]||'—'}),kp[1]?el('i',{text:'+'+kp[1]}):null]);
+  var tags=el('div',{cls:'tags'});
+  if(f.sentido)tags.appendChild(el('span',{cls:'tag',text:f.sentido}));
+  if(f.tipoTerr)tags.appendChild(el('span',{cls:'tag',text:f.tipoTerr}));
+  if(f.risco)tags.appendChild(el('span',{cls:'tag'+riskCls(f.risco),text:f.risco}));
+  tags.appendChild(el('span',{cls:'tag',text:n+' de 4 fotos'}));
+  if(CLOUD.db)tags.appendChild(el('span',{cls:'tag sync',text:r.syncedAt&&r.syncedAt>=r.updatedAt?'Na nuvem':'Aguardando envio'}));
+  var th=el('div',{cls:'thumb'});r.photos.slice(0,4).forEach(function(p){if(p){var im=el('img',{alt:''});setPreview(im,p);th.appendChild(im)}});
+  box.appendChild(el('div',{cls:'rec'},[marco,el('h3',{text:(f.ident?'Talude '+f.ident:'Sem número')+(f.rodovia?' · '+f.rodovia:'')}),tags,n?th:null,
    el('div',{cls:'acts'},[el('button',{cls:'btn',text:'Editar',onclick:function(){openForm(r)}}),
-    el('button',{cls:'btn',text:'Baixar ficha',onclick:function(){exportOne(r)}}),
-    el('button',{cls:'btn ghost danger',text:'Excluir',onclick:function(){delReg(r)}})])]))});
- $('bAll').classList.toggle('hidden',REGS.length<1);$('bFichas').classList.toggle('hidden',REGS.length<2);status()}
+    el('button',{cls:'btn',text:'Outro sentido',onclick:function(){openForm(newFrom('other',r))}}),
+    el('button',{cls:'btn ghost',text:'Baixar ficha',onclick:function(){exportOne(r)}}),
+    el('button',{cls:'btn danger',text:'Excluir',onclick:function(){delReg(r)}})])]))});
+ var rods=REGS.map(function(r){return r.f.rodovia}).filter(Boolean),fotos=REGS.reduce(function(a,r){return a+r.photos.slice(0,4).filter(Boolean).length},0);
+ $('sub').textContent=REGS.length?(REGS.length+(REGS.length===1?' talude':' taludes')+(rods.length?' na '+rods[0]:'')+', '+fotos+(fotos===1?' foto':' fotos')):'Pronto para o campo';
+ $('bAll').classList.toggle('hidden',REGS.length<1);$('allNote').classList.toggle('hidden',REGS.length<1);$('bFichas').classList.toggle('hidden',REGS.length<2);status()}
 async function delReg(r){if(!(await confirmDlg('Excluir o cadastro “'+(r.f.ident||'sem identificação')+'”? Isso não pode ser desfeito.')))return;
  REGS=REGS.filter(function(x){return x!==r});await idbDel(r.id);
  if(CLOUD.db){try{await CLOUD.db.collection('cadastros').doc(r.id).delete()}catch(e){}
@@ -405,21 +539,47 @@ async function delReg(r){if(!(await confirmDlg('Excluir o cadastro “'+(r.f.ide
  renderList();toast('Cadastro excluído')}
 
 /* ---------- formulário ---------- */
+function nextIdent(){var nums=REGS.map(function(r){return parseInt(r.f.ident,10)}).filter(function(n){return isFinite(n)});return nums.length?String(Math.max.apply(null,nums)+1):''}
+var OPP={'Norte':'Sul','Sul':'Norte','Leste':'Oeste','Oeste':'Leste','Central-Norte':'Central-Sul','Central-Sul':'Central-Norte'};
+function makeReg(f){var now=Date.now();f.ident=nextIdent()||f.ident||'';var r={id:uid(),f:f,photos:[null,null,null,null,null],createdAt:now,updatedAt:now,syncedAt:0,_new:true};REGS.unshift(r);idbPut(r);return r}
+function newFrom(mode,src){var f=Object.assign({},DEFAULTS,{data:today()});src=src||REGS[0];
+ if(src&&mode==='next'){CARRY.forEach(function(k){if(src.f[k])f[k]=src.f[k]});f.data=today()}
+ if(src&&mode==='other'){f=Object.assign({},src.f);delete f.lat;delete f.lon;delete f._autoIni;delete f._autoFim;f.sentido=OPP[src.f.sentido]||'';f.data=today();if(src.f._autoIni){f._autoIni=src.f._autoIni;f._autoFim=src.f._autoFim}}
+ if(src&&mode==='blank'&&src.f.rodovia)f.rodovia=src.f.rodovia;
+ return makeReg(f)}
 function newReg(){var last=REGS[0],f={data:today(),tipo:'Terrapleno'};
  if(last){['rodovia','tipo','sentido'].forEach(function(k){if(last.f[k])f[k]=last.f[k]})}
  var nums=REGS.map(function(r){return parseInt(r.f.ident,10)}).filter(function(n){return isFinite(n)});if(nums.length)f.ident=String(Math.max.apply(null,nums)+1)
  var now=Date.now();var r={id:uid(),f:f,photos:[null,null,null,null,null],createdAt:now,updatedAt:now,syncedAt:0};REGS.unshift(r);idbPut(r);return r}
-function openForm(r){CUR=r;$('vList').classList.add('hidden');$('vForm').classList.remove('hidden');$('bar').classList.remove('hidden');renderForm();window.scrollTo(0,0)}
+function openForm(r){CUR=r;$('vList').classList.add('hidden');$('vForm').classList.remove('hidden');$('bar').classList.remove('hidden');renderForm();window.scrollTo(0,0);
+ if(r._new){delete r._new;var g=document.querySelector('.gps');if(g&&!r.f.lat&&!r.f.lon&&navigator.geolocation&&!window.claude)g.click()}}
 function closeForm(){if(CUR){clearTimeout(saveT);idbPut(CUR)}CUR=null;$('vForm').classList.add('hidden');$('bar').classList.add('hidden');$('vList').classList.remove('hidden');renderList();window.scrollTo(0,0);syncAll()}
-function secCount(s){var keys=[];s.f.forEach(function(x){(x.row||[x]).forEach(function(y){if(y.type!=='photos')keys.push(y.k)})});
+function secCount(s){var keys=[];s.f.forEach(function(x){(x.row||[x]).forEach(function(y){if(y.type!=='photos'&&y.type!=='frases')keys.push(y.k)})});
  var done=keys.filter(function(k){return k==='coords'?(CUR.f.lat&&CUR.f.lon):CUR.f[k]}).length;return done+'/'+keys.length}
 function renderForm(){var box=$('form');box.textContent='';
+ var nav=el('div',{cls:'nav'}),navs=el('div',{cls:'navs'}),prog=el('div',{cls:'prog'},[el('i')]);nav.appendChild(navs);nav.appendChild(prog);box.appendChild(nav);
+ box.appendChild(el('p',{cls:'note',text:'Já vem marcado o que é mais comum. Troque só o que for diferente.'}));
+ var NB=[],TOT={};
+ var updNav=function(){var d=0,t=0;NB.forEach(function(x){var c=x.count();x.b.classList.toggle('done',c[0]>=c[1]&&c[1]>0);x.sec.classList.toggle('ok',c[0]>=c[1]&&c[1]>0);d+=Math.min(c[0],c[1]);t+=c[1]});prog.firstChild.style.width=(t?Math.round(100*d/t):0)+'%'};
  SECTIONS.forEach(function(s){var cnt=el('span',{text:''});var sec=el('section',{cls:'sec'},[el('h2',{},[document.createTextNode(s.t),cnt])]);
-  var fl=el('div',{cls:'fields'});var upd=function(){cnt.textContent=s.t==='Relatório fotográfico'?CUR.photos.slice(0,4).filter(Boolean).length+'/4 fotos':secCount(s)};
+  var fl=el('div',{cls:'fields'});
+  var count=function(){if(s.t==='Relatório fotográfico')return [CUR.photos.slice(0,4).filter(Boolean).length,4];var p=secCount(s).split('/');return [+p[0],+p[1]]};
+  var upd=function(){var c=count();cnt.textContent=s.t==='Relatório fotográfico'?c[0]+' de 4 fotos':c[0]+' de '+c[1];updNav()};
+  var nb=el('button',{type:'button',text:s.t,onclick:function(){sec.scrollIntoView({behavior:'smooth',block:'start'})}});navs.appendChild(nb);NB.push({b:nb,sec:sec,count:count});
   s.f.forEach(function(x){if(x.row){fl.appendChild(el('div',{cls:'row2'},x.row.map(function(y){return field(y,upd)})))}else fl.appendChild(field(x,upd))});
-  sec.appendChild(fl);box.appendChild(sec);upd()})}
+  if(s.toggle){var keys=['tipoCont','contExt','contAlt','ancor','elem'];var has=keys.some(function(k){return CUR.f[k]});var on=has;
+   var tg=el('div',{cls:'fields'},[el('div',{cls:'lb',text:'Tem estrutura de contenção?'})]);var cc=el('div',{cls:'chips'});
+   var bN=el('button',{cls:'chip',type:'button',text:'Não'}),bS=el('button',{cls:'chip',type:'button',text:'Sim'});
+   var paintT=function(){bN.setAttribute('aria-pressed',String(!on));bS.setAttribute('aria-pressed',String(on));fl.classList.toggle('hidden',!on)};
+   bN.onclick=function(){if(keys.some(function(k){return CUR.f[k]})){keys.forEach(function(k){CUR.f[k]=''});touch();renderForm();return}on=false;paintT()};
+   bS.onclick=function(){on=true;paintT()};cc.appendChild(bN);cc.appendChild(bS);tg.appendChild(cc);sec.appendChild(tg);paintT()}
+  sec.appendChild(fl);box.appendChild(sec);upd()});
+ document.documentElement.style.setProperty('--hh',$('hdr').offsetHeight+'px')}
 function field(d,upd){var f=CUR.f,w=el('div',{cls:'f'});
  if(d.type==='photos')return photoField(upd);
+ if(d.type==='frases'){var fw=el('div',{cls:'f'});Object.keys(FRASES).forEach(function(g){fw.appendChild(el('div',{cls:'lb',text:'Frases prontas: '+g.toLowerCase()}));
+   var c=el('div',{cls:'frases'});FRASES[g].forEach(function(t){c.appendChild(el('button',{cls:'frase',type:'button',text:t,onclick:function(){var ta=$('i_obs');var v=(ta.value||'').trim();ta.value=(v?v+' ':'')+t;f.obs=ta.value;touch();upd();toast('Frase adicionada')}}))});fw.appendChild(c)});
+  fw.appendChild(el('div',{cls:'hint',text:'Toque para acrescentar ao texto. Dá para ditar também: use o microfone do teclado do celular.'}));return fw}
  if(d.l)w.appendChild(el(d.type==='chips'?'div':'label',{cls:d.type==='chips'?'lb':'',text:d.l,'for':'i_'+d.k}));
  if(d.type==='chips'){var c=el('div',{cls:'chips',role:'group'}),opts=L[d.o];
   // estado: lista de selecionados (das opções) + texto livre
@@ -443,7 +603,7 @@ function field(d,upd){var f=CUR.f,w=el('div',{cls:'f'});
   var showUtm=function(){var u=CORE.coordsUTM({lat:lat.value,lon:lon.value});utmBox.textContent=u?'Vai para a planilha como: '+u.x+'  ·  '+u.y+'  (UTM fuso '+u.zone+')':''};
   var set=function(){f.lat=lat.value.trim();f.lon=lon.value.trim();showUtm();touch();upd()};
   lat.oninput=set;lon.oninput=set;lat.onpaste=paste;lon.onpaste=paste;
-  var gps=el('button',{cls:'btn pri big gps',type:'button',text:'📍 Pegar coordenadas do GPS'});
+  var gps=el('button',{cls:'btn big gps',type:'button',text:'Pegar coordenadas do GPS'});
   gps.onclick=function(){getGPS(gps,function(la,lo){lat.value=la;lon.value=lo;set()})};
   if(!navigator.geolocation)gps.classList.add('hidden');
   w.appendChild(gps);
@@ -455,16 +615,23 @@ function field(d,upd){var f=CUR.f,w=el('div',{cls:'f'});
  if(d.type==='area'){inp=el('textarea',{id:'i_'+d.k})}
  else if(d.type==='date'){inp=el('input',{type:'date',id:'i_'+d.k})}
  else inp=el('input',{type:'text',id:'i_'+d.k,inputmode:d.type==='num'?'decimal':'text',autocomplete:'off',placeholder:d.ph||''});
- inp.value=f[d.k]||'';inp.oninput=function(){f[d.k]=inp.value;touch();upd()};w.appendChild(inp);return w}
+ inp.value=f[d.k]||'';inp.oninput=function(){f[d.k]=inp.value;if(d.k==='local'||d.k==='ext')autoKm();touch();upd()};w.appendChild(inp);return w}
+function kmM(v){var k=CORE.km(v),m=String(k).match(/^(\d+)\+(\d+)$/);return m?(+m[1])*1000+(+m[2]):null}
+function mKm(m){m=Math.max(0,Math.round(m));var k=String(Math.floor(m/1000)),r=String(m%1000);while(k.length<3)k='0'+k;while(r.length<3)r='0'+r;return k+'+'+r}
+// Km inicial/final = localização ± extensão/2 (enquanto você não digitar outro valor)
+function autoKm(){var f=CUR.f,c=kmM(f.local),e=parseFloat(String(f.ext||'').replace(',','.'));if(c==null||!(e>0))return;
+ var ini=mKm(c-e/2),fim=mKm(c+e/2);
+ if(!f.kmIni||f.kmIni===f._autoIni){f.kmIni=ini;f._autoIni=ini;var a=$('i_kmIni');if(a)a.value=ini}
+ if(!f.kmFim||f.kmFim===f._autoFim){f.kmFim=fim;f._autoFim=fim;var b=$('i_kmFim');if(b)b.value=fim}}
 function photoField(upd){var g=el('div',{cls:'photos'});
  var NAMES=['Foto 1','Foto 2','Foto 3','Foto 4','Croqui'];var draw=function(){g.textContent='';for(var j=0;j<5;j++)(function(j){var p=CUR.photos[j];var cell=el('div',{cls:'ph'+(j===4?' croq':'')});
   if(p){var img=el('img',{alt:NAMES[j]});setPreview(img,p);cell.appendChild(img);
    cell.appendChild(el('span',{cls:'n',text:NAMES[j]}));
    cell.appendChild(el('button',{cls:'x',type:'button','aria-label':'Remover foto','text':'×',onclick:function(e){e.stopPropagation();CUR.photos[j]=null;touch();draw();upd()}}))}
-  else{cell.appendChild(document.createTextNode((j===4?'✏️ ':'📷 ')+NAMES[j]+(j===4?' (opcional)':'')));var inp=el('input',{type:'file',accept:'image/*','aria-label':'Adicionar '+NAMES[j]});
+  else{cell.appendChild(document.createTextNode(j===4?'Croqui (opcional): fotografe o desenho':'Tirar '+NAMES[j].toLowerCase()));var inp=el('input',{type:'file',accept:'image/*','aria-label':'Adicionar '+NAMES[j]});
    inp.onchange=function(){if(inp.files&&inp.files[0])addPhoto(j,inp.files[0]).then(function(){draw();upd()})};cell.appendChild(inp)}
   g.appendChild(cell)})(j)};
- draw();var w=el('div',{cls:'f'},[el('div',{cls:'lb',text:'Fotos'}),g,el('div',{cls:'hint',text:'Toque num quadro para tirar a foto ou escolher da galeria. No Linear viram TP_nº-1 a TP_nº-4; o croqui (foto do desenho) vira Croqui_nº.'})]);return w}
+ draw();var w=el('div',{cls:'f'},[el('div',{cls:'lb',text:'Fotos do talude'}),g,el('div',{cls:'hint',text:'Toque num quadro para tirar a foto ou escolher da galeria. No Linear viram TP_nº-1 a TP_nº-4; o croqui (foto do desenho) vira Croqui_nº.'})]);return w}
 async function addPhoto(j,file){toast('Processando foto…');
  try{var gps=null;try{gps=exifGPS(await file.slice(0,262144).arrayBuffer())}catch(e){}
   var c=await compress(file);CUR.photos[j]={blob:c.blob,w:c.w,h:c.h,assetId:null};touch();
@@ -536,7 +703,11 @@ async function exportLinear(){if(!REGS.length)return;toast('Gerando Linear + fot
   await save('Linear_Terraplenos_Campo_'+today()+'.zip',CORE.zip(ents))}catch(e){toast('Erro ao gerar: '+(e.message||e))}}
 
 /* ---------- início ---------- */
-$('bNew').onclick=function(){openForm(newReg())};
+$('bNew').onclick=function(){if(!REGS.length){openForm(newFrom('blank'));return}$('chooser').classList.add('on')};
+$('chNext').onclick=function(){$('chooser').classList.remove('on');openForm(newFrom('next'))};
+$('chOther').onclick=function(){$('chooser').classList.remove('on');openForm(newFrom('other'))};
+$('chBlank').onclick=function(){$('chooser').classList.remove('on');openForm(newFrom('blank'))};
+$('chCancel').onclick=function(){$('chooser').classList.remove('on')};
 $('bBack').onclick=closeForm;
 $('bXls').onclick=function(){if(CUR){idbPut(CUR);exportOne(CUR)}};
 $('bAll').onclick=exportLinear;$('bFichas').onclick=exportAll;
